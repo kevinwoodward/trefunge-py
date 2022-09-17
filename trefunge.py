@@ -35,7 +35,10 @@ class Trefunge:
         self.direction = (1, 0, 0)
         self.program = self._parse_program(program_raw)
         self.stack = Stack()
+        self.enable_stack_history = False
+        self.stack_history = []
         self.string_mode = False
+        self.signal_exit = False
         self.instruction_map = {
             ' ': lambda: None,
             '+': self._addition,
@@ -101,9 +104,10 @@ class Trefunge:
             self.z = 0
 
     def run(self):
-        while True:
+        while not self.signal_exit:
+            if self.enable_stack_history:
+                self.stack_history.append(self.stack.copy())
             cmd = self.program[self.z][self.y][self.x]
-            # print('CMD', cmd, 'POS', self._pc, 'DIR', self.direction)
             if self.string_mode and cmd != '"':
                 self.stack.append(ord(self.program[self.z][self.y][self.x]))
             else:
@@ -225,9 +229,8 @@ class Trefunge:
     def _get_char(self):
         self.stack.append(ord(self._getch()))
 
-    @staticmethod
-    def _exit():
-        exit(0)
+    def _exit(self):
+        self.signal_exit = True
 
     def _num(self, c):
         n = int(c)
