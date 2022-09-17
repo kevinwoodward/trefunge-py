@@ -282,6 +282,6 @@ class Trefunge:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('program_dir', type=str)
-    args = parser.parse_args()
-    interp = Trefunge(args.program_dir)
+    parsed_args = parser.parse_args()
+    interp = Trefunge(parsed_args.program_dir)
     interp.run()

@@ -26,8 +26,8 @@ class TestInterpreter:
     @pytest.mark.parametrize('program_dir', PROGRAMS)
     def test_stack_state(self, program_dir):
         """
-        Run each program in ./programs, and compare the stack at every step of execution to what's expected in the
-        pickle file stack_history.pkl
+        Run each program in ./programs, and compare the contents of the stack at every step of execution to what's
+        expected in the pickle file stack_history.pkl
         """
         interpreter = Trefunge(program_dir)
         interpreter.enable_stack_history = True
